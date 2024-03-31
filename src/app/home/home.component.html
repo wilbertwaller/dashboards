@@ -1,2 +1,14 @@
 <app-navbar></app-navbar>
-<p>home works!</p>
+
+<div class="content">
+  <mat-card *ngFor="let group of groups">
+    <mat-card-header><mat-card-title>{{ group.name }}</mat-card-title></mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <a mat-list-item *ngFor="let route of group.paths" [routerLink]="route.path" style="cursor: pointer;">
+          {{ route.title }}
+        </a>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>
