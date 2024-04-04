@@ -11,7 +11,7 @@ import { CommonModule } from "@angular/common";
   standalone: true,
   imports: [CommonModule, MatCardModule, MatListModule, NavbarComponent, RouterModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['../shared/shared-styles.css', './home.component.css']
 })
 export class HomeComponent implements OnInit {
   groups: { name: string; paths: Route[] }[] = [];
