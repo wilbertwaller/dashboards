@@ -28,7 +28,7 @@
     </form>
     
     <section>
-      <button mat-stroked-button color="primary"><mat-icon>add</mat-icon>New</button>
+      <button mat-stroked-button color="primary" (click)="onCreateDashboard()"><mat-icon>add</mat-icon>New</button>
       <ng-container *ngIf="dashboardCtrl.value">
         <button mat-stroked-button color="primary"><mat-icon>content_copy</mat-icon>Clone</button>
         <button mat-stroked-button color="warn"><mat-icon>delete</mat-icon>Delete</button>
