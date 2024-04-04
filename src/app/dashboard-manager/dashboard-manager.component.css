@@ -1,0 +1,4 @@
+.control, .control section {
+  display: flex;
+  gap: 1rem;
+}

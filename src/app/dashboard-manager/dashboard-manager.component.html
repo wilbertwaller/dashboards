@@ -1,2 +1,40 @@
 <app-navbar></app-navbar>
-<p>dashboard-manager works!</p>
+
+<div class="container">
+  <h1>Manage</h1>
+  <p>
+    Select a dashboard to Edit, Clone, or Delete.
+    Otherwise, click New to create a new dashboard.
+  </p>
+
+  <div class="control">
+    <form>
+      <mat-form-field>
+        <mat-label>Dashboard</mat-label>
+        <input
+          [formControl]="dashboardCtrl"
+          #input
+          [matAutocomplete]="auto"
+          matInput
+          placeholder="Select dashboard"
+          type="text"
+          (focus)="filter()"
+          (input)="filter()"
+        >
+        <mat-autocomplete #auto="matAutocomplete" requireSelection>
+          <mat-option *ngFor="let dashboard of filteredDashboards" [value]="dashboard.id">{{ dashboard.name }}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+    
+    <section>
+      <button mat-stroked-button color="primary"><mat-icon>add</mat-icon>New</button>
+      <ng-container *ngIf="dashboardCtrl.value">
+        <button mat-stroked-button color="primary"><mat-icon>content_copy</mat-icon>Clone</button>
+        <button mat-stroked-button color="warn"><mat-icon>delete</mat-icon>Delete</button>
+        <mat-divider vertical></mat-divider>
+        <button mat-flat-button color="primary"><mat-icon>save</mat-icon>Save</button>
+      </ng-container>
+    </section>
+  </div>
+</div>
