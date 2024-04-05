@@ -22,7 +22,9 @@
           (input)="filter()"
         >
         <mat-autocomplete #auto="matAutocomplete" requireSelection>
-          <mat-option *ngFor="let dashboard of filteredDashboards" [value]="dashboard.id">{{ dashboard.name }}</mat-option>
+          <mat-optgroup *ngFor="let group of filteredGroupOptions" [label]="group.name">
+            <mat-option *ngFor="let dashboard of group.dashboards" [value]="dashboard">{{ dashboard }}</mat-option>
+          </mat-optgroup>
         </mat-autocomplete>
       </mat-form-field>
     </form>

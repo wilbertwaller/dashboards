@@ -10,6 +10,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { CreateDashboardDialogComponent } from './dialogs/create-dashboard-dialog/create-dashboard-dialog.component';
+import { DashboardService } from '../dashboard.service';
+import { Dashboard } from '../dashboard.model';
+
+interface Group {
+  name: string;
+  dashboards: string[];
+}
 
 @Component({
   selector: 'app-dashboard-manager',
@@ -32,21 +39,49 @@ export class DashboardManagerComponent implements OnInit {
   @ViewChild('input') input: ElementRef<HTMLInputElement> | undefined;
 
   dashboardCtrl = new FormControl('');
-  dashboards: any = [];
-  filteredDashboards: any;
+  dashboards: Dashboard[] = [];
+  filteredDashboards: Dashboard[] = [];
+  filteredGroupOptions: Group[] = [];
+  groupOptions: Group[] = [];
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    this.filteredDashboards = this.dashboards.slice();
+    this.dashboardService.dashboards.subscribe((dashboards: Dashboard[]) => {
+      const unassociated = 'Unassociated';
+      const groupMap = dashboards.reduce((map, dashboard) => {
+        const group = dashboard.group;
+        if (group) {
+          const dashboards = map.get(group) ?? [];
+          dashboards.push(dashboard.name);
+          map.set(group, dashboards);
+        } else {
+          const dashboards = map.get(unassociated) ?? [];
+          dashboards.push(dashboard.name);
+          map.set(unassociated, dashboards);
+        }
+        return map;
+      }, new Map<string, string[]>());
+      this.groupOptions = Array.from(groupMap, ([name, dashboards]) => ({ name, dashboards }));
+    });
   }
 
   filter(): void {
     const filterValue = this.input?.nativeElement.value.toLowerCase();
-    this.filteredDashboards = this.dashboards.filter((dashboard: { name: { toLowerCase: () => (string | undefined)[]; }; }) => dashboard.name.toLowerCase().includes(filterValue));
+    this.filteredGroupOptions = this.groupOptions
+      .map((group: Group) => ({
+        name: group.name,
+        dashboards: group.dashboards.filter((dashboard: string) => filterValue ? dashboard.toLowerCase().includes(filterValue) : true)
+      }))
+      .filter((group: Group) => group.dashboards.length > 0);
   }
 
   onCreateDashboard(): void {
     const dialogRef = this.dialog.open(CreateDashboardDialogComponent, { autoFocus: false });
+    dialogRef.afterClosed().subscribe((dashboard: Dashboard) => {
+      if (dashboard) {
+        this.dashboardCtrl.setValue(dashboard.name);
+      }
+    })
   }
 }
