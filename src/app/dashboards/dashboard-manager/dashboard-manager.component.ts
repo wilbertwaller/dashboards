@@ -3,7 +3,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { NavbarComponent } from '../navbar/navbar.component';
+import { NavbarComponent } from '../../navbar/navbar.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,7 +26,7 @@ import { CreateDashboardDialogComponent } from './dialogs/create-dashboard-dialo
     ReactiveFormsModule
   ],
   templateUrl: './dashboard-manager.component.html',
-  styleUrls: ['../shared/shared-styles.css', './dashboard-manager.component.css']
+  styleUrls: ['../../shared/shared-styles.css', './dashboard-manager.component.css']
 })
 export class DashboardManagerComponent implements OnInit {
   @ViewChild('input') input: ElementRef<HTMLInputElement> | undefined;

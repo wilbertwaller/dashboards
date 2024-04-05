@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { DashboardManagerComponent } from './dashboard-manager/dashboard-manager.component';
+import { DashboardManagerComponent } from './dashboards/dashboard-manager/dashboard-manager.component';
 import { UserManagerComponent } from './user-manager/user-manager.component';
 
 export const routes: Routes = [
