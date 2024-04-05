@@ -38,17 +38,18 @@ interface Group {
 export class DashboardManagerComponent implements OnInit {
   @ViewChild('input') input: ElementRef<HTMLInputElement> | undefined;
 
+  private dashboards: Dashboard[] = [];
+  private selectedDashboard: Dashboard | undefined;
+
   dashboardCtrl = new FormControl('');
-  dashboards: Dashboard[] = [];
-  filteredDashboards: Dashboard[] = [];
   filteredGroupOptions: Group[] = [];
   groupOptions: Group[] = [];
 
   constructor(private dialog: MatDialog, private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
+    const unassociated = 'Unassociated';
     this.dashboardService.dashboards.subscribe((dashboards: Dashboard[]) => {
-      const unassociated = 'Unassociated';
       const groupMap = dashboards.reduce((map, dashboard) => {
         const group = dashboard.group;
         if (group) {
@@ -62,8 +63,13 @@ export class DashboardManagerComponent implements OnInit {
         }
         return map;
       }, new Map<string, string[]>());
+
+      this.dashboards = dashboards;
       this.groupOptions = Array.from(groupMap, ([name, dashboards]) => ({ name, dashboards }));
     });
+    this.dashboardCtrl.valueChanges.subscribe((value: string | null) => {
+      this.selectedDashboard = this.dashboards.find((dashboard: Dashboard) => dashboard.name === value);
+    })
   }
 
   filter(): void {
@@ -84,4 +90,10 @@ export class DashboardManagerComponent implements OnInit {
       }
     })
   }
+
+  onCopyDashboard(): void {}
+
+  onDeleteDashboard(): void {}
+
+  onSaveDashboard(): void {}
 }
