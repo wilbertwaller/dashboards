@@ -62,7 +62,7 @@ export class CreateDashboardDialogComponent implements OnInit {
 
   saveDashboard(): void {
     const { name, group, isExercise } = this.formGroup.value;
-    const dashboard = new Dashboard(uuid(), <string>name, <string>group, <boolean>isExercise);
+    const dashboard = new Dashboard(uuid(), <string>name, <string>group || 'Unassociated', <boolean>isExercise);
     this.dashboardService.addDashboard(dashboard);
     this.dialogRef.close(dashboard);
   }
