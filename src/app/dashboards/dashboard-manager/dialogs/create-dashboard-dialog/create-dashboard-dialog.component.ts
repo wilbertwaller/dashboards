@@ -8,6 +8,10 @@ import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDi
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { v4 as uuid } from 'uuid';
+import { DashboardService } from '../../../dashboard.service';
+import { Dashboard } from '../../../dashboard.model';
+import { uniq } from 'lodash';
 
 @Component({
   selector: 'app-create-dashboard-dialog',
@@ -40,10 +44,15 @@ export class CreateDashboardDialogComponent implements OnInit {
   });
   groups: string[] = [];
 
-  constructor(private dialogRef: MatDialogRef<CreateDashboardDialogComponent>) {}
+  constructor(
+    private dialogRef: MatDialogRef<CreateDashboardDialogComponent>,
+    private dashboardService: DashboardService
+  ) {}
 
   ngOnInit(): void {
-    this.filteredGroups = this.groups.slice();
+    this.dashboardService.dashboards.subscribe((dashboards: Dashboard[]) => {
+      this.groups = uniq(dashboards.map((dashboard: Dashboard) => dashboard.group));
+    });
   }
 
   filter(): void {
@@ -52,6 +61,9 @@ export class CreateDashboardDialogComponent implements OnInit {
   }
 
   saveDashboard(): void {
-    console.log(this.formGroup.value)
+    const { name, group, isExercise } = this.formGroup.value;
+    const dashboard = new Dashboard(uuid(), <string>name, <string>group, <boolean>isExercise);
+    this.dashboardService.addDashboard(dashboard);
+    this.dialogRef.close(dashboard);
   }
 }
