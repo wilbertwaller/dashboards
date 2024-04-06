@@ -31,4 +31,8 @@ export class DashboardService {
     this._dashboards = this._dashboards.filter((dashboard: Dashboard) => dashboard.id !== id);
     this.dashboards.next(this._dashboards);
   }
+
+  getDashboardById(id: string): Dashboard | undefined {
+    return this._dashboards.find((dashboard: Dashboard) => dashboard.id === id);
+  }
 }

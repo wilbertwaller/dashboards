@@ -2,14 +2,14 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { DashboardManagerComponent } from './dashboards/dashboard-manager/dashboard-manager.component';
 import { UserManagerComponent } from './user-manager/user-manager.component';
+import { DashboardComponent } from './dashboards/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full', 
     component: HomeComponent,
-    title: 'Dashboards',
-    data: { 'title': 'Dashboards' }
+    title: 'Dashboards'
   },
   {
     path: 'dashboard-manager', 
@@ -17,6 +17,10 @@ export const routes: Routes = [
     component: DashboardManagerComponent,
     title: 'Dashboard Manager',
     data: { group: 'Admin' }
+  },
+  {
+    path: 'dashboards/:id', 
+    component: DashboardComponent
   },
   {
     path: 'user-manager', 
