@@ -13,6 +13,7 @@ import { CreateDashboardDialogComponent } from './dialogs/create-dashboard-dialo
 import { DashboardService } from '../dashboard.service';
 import { Dashboard } from '../dashboard.model';
 import { CopyDashboardDialogComponent } from './dialogs/copy-dashboard-dialog/copy-dashboard-dialog.component';
+import { DeleteDashboardDialogComponent } from './dialogs/delete-dashboard-dialog/delete-dashboard-dialog.component';
 
 interface Group {
   name: string;
@@ -104,7 +105,17 @@ export class DashboardManagerComponent implements OnInit {
     });
   }
 
-  onDeleteDashboard(): void {}
+  onDeleteDashboard(): void {
+    const dialogRef = this.dialog.open(DeleteDashboardDialogComponent, {
+      autoFocus: false,
+      data: { dashboard: this.selectedDashboard }
+    });
+    dialogRef.afterClosed().subscribe((deleted: boolean) => {
+      if (deleted) {
+        this.dashboardCtrl.setValue('');
+      }
+    });
+  }
 
   onSaveDashboard(): void {}
 }
