@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Delete Dashboard</h2>
+<mat-dialog-content>
+  <p>Confirm deletion of dashboard {{ data.dashboard.name }} from group {{ data.dashboard.group }}.</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close color="primary"><mat-icon>cancel</mat-icon>Cancel</button>
+  <button mat-flat-button color="warn" (click)="deleteDashboard()"><mat-icon>delete</mat-icon>Delete</button>
+</mat-dialog-actions>
