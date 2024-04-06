@@ -38,6 +38,7 @@ export class CreateDashboardDialogComponent implements OnInit {
 
   filteredGroups: string[] = [];
   formGroup = new FormGroup({
+    id: new FormControl(uuid(), Validators.required),
     name: new FormControl('', Validators.required),
     group: new FormControl(''),
     isExercise: new FormControl(false)
@@ -61,8 +62,8 @@ export class CreateDashboardDialogComponent implements OnInit {
   }
 
   saveDashboard(): void {
-    const { name, group, isExercise } = this.formGroup.value;
-    const dashboard = new Dashboard(uuid(), <string>name, <string>group || 'Unassociated', <boolean>isExercise);
+    const { id, name, group, isExercise } = this.formGroup.value;
+    const dashboard = new Dashboard(<string>id, <string>name, <string>group || 'Unassociated', <boolean>isExercise);
     this.dashboardService.addDashboard(dashboard);
     this.dialogRef.close(dashboard);
   }
