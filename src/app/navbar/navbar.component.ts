@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { DashboardService } from '../dashboards/dashboard.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,9 +15,18 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 export class NavbarComponent implements OnInit {
   title = '';
 
-  constructor(private readonly route: ActivatedRoute) {}
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly dashboardService: DashboardService
+  ) {}
 
   ngOnInit(): void {
-    this.title = <string>this.route.snapshot.title ?? '';
+    let title = <string>this.route.snapshot.title;
+    if (!title) {
+      const id = <string>this.route.snapshot.paramMap.get('id');
+      const dashboard = this.dashboardService.getDashboardById(id);
+      title = <string>dashboard?.name ?? '';
+    }
+    this.title = title;
   }
 }
