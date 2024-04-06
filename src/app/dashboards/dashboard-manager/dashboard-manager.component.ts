@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CreateDashboardDialogComponent } from './dialogs/create-dashboard-dialog/create-dashboard-dialog.component';
 import { DashboardService } from '../dashboard.service';
 import { Dashboard } from '../dashboard.model';
+import { CopyDashboardDialogComponent } from './dialogs/copy-dashboard-dialog/copy-dashboard-dialog.component';
 
 interface Group {
   name: string;
@@ -88,10 +89,20 @@ export class DashboardManagerComponent implements OnInit {
       if (dashboard) {
         this.dashboardCtrl.setValue(dashboard.name);
       }
-    })
+    });
   }
 
-  onCopyDashboard(): void {}
+  onCopyDashboard(): void {
+    const dialogRef = this.dialog.open(CopyDashboardDialogComponent, {
+      autoFocus: false,
+      data: { dashboard: this.selectedDashboard }
+    });
+    dialogRef.afterClosed().subscribe((dashboard: Dashboard) => {
+      if (dashboard) {
+        this.dashboardCtrl.setValue(dashboard.name);
+      }
+    });
+  }
 
   onDeleteDashboard(): void {}
 
