@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Copy Dashboard</h2>
+<mat-dialog-content>
+  <form [formGroup]="formGroup">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput required type="text">
+      <mat-error>{{ formGroup.get('name')?.hasError('required') ? 'Field is required' : '' }}</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close color="primary"><mat-icon>cancel</mat-icon>Cancel</button>
+  <button [disabled]="formGroup.invalid" mat-flat-button color="primary" (click)="saveDashboard()"><mat-icon>save</mat-icon>Save</button>
+</mat-dialog-actions>
