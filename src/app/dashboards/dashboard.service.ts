@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Dashboard } from './dashboard.model';
 import { BehaviorSubject } from 'rxjs';
 import { merge } from 'lodash';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,14 @@ export class DashboardService {
 
   getDashboardById(id: string): Dashboard | undefined {
     return this._dashboards.find((dashboard: Dashboard) => dashboard.id === id);
+  }
+
+  includes(name: string): boolean {
+    return !!this._dashboards.find((dashboard: Dashboard) => dashboard.name.toLowerCase() === name.trim().toLowerCase());
+  }
+
+  existingNameValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null =>
+      this.includes(control.value) ? { existingName: { value: control.value } } : null
   }
 }

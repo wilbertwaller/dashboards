@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -37,20 +37,22 @@ export class CreateDashboardDialogComponent implements OnInit {
   @ViewChild('input') input: ElementRef<HTMLInputElement> | undefined;
 
   filteredGroups: string[] = [];
-  formGroup = new FormGroup({
-    id: new FormControl(uuid(), Validators.required),
-    name: new FormControl('', Validators.required),
-    group: new FormControl(''),
-    isExercise: new FormControl(false)
-  });
+  formGroup!: FormGroup;
   groups: string[] = [];
 
   constructor(
     private dialogRef: MatDialogRef<CreateDashboardDialogComponent>,
+    private formBuilder: FormBuilder,
     private dashboardService: DashboardService
   ) {}
 
   ngOnInit(): void {
+    this.formGroup = this.formBuilder.group({
+      id: [uuid(), Validators.required],
+      name: ['', [Validators.required, this.dashboardService.existingNameValidator()]],
+      group: [''],
+      isExercise: [false]
+    });
     this.dashboardService.dashboards.subscribe((dashboards: Dashboard[]) => {
       this.groups = uniq(dashboards.map((dashboard: Dashboard) => dashboard.group));
     });
@@ -59,6 +61,13 @@ export class CreateDashboardDialogComponent implements OnInit {
   filter(): void {
     const filterValue = this.input?.nativeElement.value.toLowerCase();
     this.filteredGroups = this.groups.filter((group: string) => filterValue ? group.toLowerCase().includes(filterValue) : true);
+  }
+
+  getErrorMessage(formControlName: string): string {
+    const ctrl = this.formGroup.get(formControlName);
+    if (ctrl?.hasError('required')) return 'Field is required';
+    if (ctrl?.hasError('existingName')) return 'Name already exists';
+    return '';
   }
 
   saveDashboard(): void {

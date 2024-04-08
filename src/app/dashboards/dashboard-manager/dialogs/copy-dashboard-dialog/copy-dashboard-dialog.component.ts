@@ -42,10 +42,17 @@ export class CopyDashboardDialogComponent implements OnInit {
     const dashboard = this.data.dashboard;
     this.formGroup = this.formBuilder.group({
       id: [uuid(), Validators.required],
-      name: [dashboard?.name + ' (Copy)', Validators.required],
+      name: [dashboard?.name + ' (Copy)', [Validators.required, this.dashboardService.existingNameValidator()]],
       group: [dashboard?.group || ''],
       isExercise: [dashboard?.isExercise ?? false]
     });
+  }
+
+  getErrorMessage(formControlName: string): string {
+    const ctrl = this.formGroup.get(formControlName);
+    if (ctrl?.hasError('required')) return 'Field is required';
+    if (ctrl?.hasError('existingName')) return 'Name already exists';
+    return '';
   }
 
   saveDashboard(): void {

@@ -4,7 +4,7 @@
     <mat-form-field>
       <mat-label>Name</mat-label>
       <input formControlName="name" matInput required type="text">
-      <mat-error>{{ formGroup.get('name')?.hasError('required') ? 'Field is required' : '' }}</mat-error>
+      <mat-error>{{ getErrorMessage('name') }}</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Group</mat-label>
