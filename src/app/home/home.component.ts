@@ -35,14 +35,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const initialRoutes = this.buildInitialRoutes();
+    const initialRoutes = this.getInitialRoutes();
     this.dashboardService.dashboards.pipe(takeUntil(this.onDestroy$)).subscribe((dashboards: Dashboard[]) => {
-      const additionalRoutes = this.buildAdditionalRoutes(dashboards);
+      const additionalRoutes = this.getAdditionalRoutes(dashboards);
       this.groups = concat(initialRoutes, additionalRoutes);
     });
   }
 
-  private buildInitialRoutes(): Group[] {
+  private getInitialRoutes(): Group[] {
     const groupMap = this.router.config.reduce((map, route) => {
       const key = route?.data?.['group'];
       if (key) {
@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     return Array.from(groupMap, ([name, paths]) => ({ name, paths }));
   }
 
-  private buildAdditionalRoutes(dashboards: Dashboard[]): Group[] {
+  private getAdditionalRoutes(dashboards: Dashboard[]): Group[] {
     const groupMap = dashboards.reduce((map, dashboard) => {
       const key = dashboard.group || this.unassociated;
       const routes = map.get(key) ?? [];
