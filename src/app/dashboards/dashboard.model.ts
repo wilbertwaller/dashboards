@@ -1,4 +1,6 @@
 export class Dashboard {
+  isArchived = false;
+
   constructor(
     public id: string,
     public name: string,
