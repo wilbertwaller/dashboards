@@ -13,16 +13,16 @@
         <mat-label>Dashboard</mat-label>
         <input
           [formControl]="dashboardCtrl"
-          #input
+          #dashboardInput
           [matAutocomplete]="auto"
           matInput
           placeholder="Select dashboard"
           type="text"
-          (focus)="filter()"
-          (input)="filter()"
+          (focus)="filterDashboard()"
+          (input)="filterDashboard()"
         >
         <mat-autocomplete #auto="matAutocomplete" requireSelection>
-          <mat-optgroup *ngFor="let group of filteredGroupOptions" [label]="group.name">
+          <mat-optgroup *ngFor="let group of filteredDashboardGroups" [label]="group.name">
             <mat-option *ngFor="let dashboard of group.dashboards" [value]="dashboard">{{ dashboard }}</mat-option>
           </mat-optgroup>
         </mat-autocomplete>
@@ -39,4 +39,51 @@
       </ng-container>
     </section>
   </div>
+
+  <mat-tab-group *ngIf="dashboardCtrl.value">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon style="margin-right: 8px">settings</mat-icon>
+        General
+      </ng-template>
+      <ng-container *ngTemplateOutlet="general"></ng-container>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon style="margin-right: 8px">dashboard</mat-icon>
+        Layout
+      </ng-template>
+      <ng-container *ngTemplateOutlet="layout"></ng-container>
+    </mat-tab>
+  </mat-tab-group>
 </div>
+
+<ng-template #general matTabContent>
+  <form class="edit" [formGroup]="formGroup">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput required type="text">
+      <mat-error>{{ getErrorMessage('name') }}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Group</mat-label>
+      <input
+        formControlName="group"
+        #groupInput
+        [matAutocomplete]="auto"
+        matInput
+        placeholder="Enter group"
+        type="text"
+        (focus)="filterGroup()"
+        (input)="filterGroup()"
+      >
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let group of filteredGroups" [value]="group">{{ group }}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-checkbox formControlName="isExercise">Exercise</mat-checkbox>
+    <mat-checkbox formControlName="isArchived">Archive</mat-checkbox>
+  </form>
+</ng-template>
+
+<ng-template #layout matTabContent>Layout</ng-template>

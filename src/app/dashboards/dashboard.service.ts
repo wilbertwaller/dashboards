@@ -18,7 +18,7 @@ export class DashboardService {
     this.dashboards.next(this._dashboards);
   }
 
-  updateDashboard(id: string, updates: Dashboard): void {
+  updateDashboard(id: string, updates: Partial<Dashboard>): void {
     this._dashboards = this._dashboards.map((dashboard: Dashboard) => {
       if (dashboard.id === id) {
         return merge({}, dashboard, updates);
