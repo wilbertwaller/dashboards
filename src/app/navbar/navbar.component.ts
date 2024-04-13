@@ -25,7 +25,10 @@ export class NavbarComponent implements OnInit {
     if (!title) {
       const id = <string>this.route.snapshot.paramMap.get('id');
       const dashboard = this.dashboardService.getDashboardById(id);
-      title = <string>dashboard?.name ?? '';
+      if (dashboard) {
+        const archived = dashboard?.isArchived ? '(Archived)' : '';
+        title = `${<string>dashboard?.name} ${archived}`.trim();
+      }
     }
     this.title = title;
   }

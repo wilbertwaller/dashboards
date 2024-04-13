@@ -56,13 +56,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private getAdditionalRoutes(dashboards: Dashboard[]): Group[] {
-    const groupMap = dashboards.reduce((map, dashboard) => {
-      const key = dashboard.group || this.unassociated;
-      const routes = map.get(key) ?? [];
-      routes.push({ path: `dashboards/${dashboard.id}`, title: dashboard.name });
-      map.set(key, routes);
-      return map;
-    }, new Map<string, Route[]>());
+    const groupMap = dashboards
+      .filter((dashboard: Dashboard) => !dashboard.isArchived)
+      .reduce((map, dashboard) => {
+        const key = dashboard.group || this.unassociated;
+        const routes = map.get(key) ?? [];
+        routes.push({ path: `/dashboards/${dashboard.id}`, title: dashboard.name });
+        map.set(key, routes);
+        return map;
+      }, new Map<string, Route[]>());
     return Array.from(groupMap, ([name, paths]) => ({ name, paths }));
   }
 }

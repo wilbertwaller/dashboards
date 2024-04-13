@@ -3,6 +3,7 @@ import { HomeComponent } from './home/home.component';
 import { DashboardManagerComponent } from './dashboards/dashboard-manager/dashboard-manager.component';
 import { UserManagerComponent } from './user-manager/user-manager.component';
 import { DashboardComponent } from './dashboards/dashboard/dashboard.component';
+import { ArchivesComponent } from './archives/archives.component';
 
 export const routes: Routes = [
   {
@@ -10,6 +11,13 @@ export const routes: Routes = [
     pathMatch: 'full', 
     component: HomeComponent,
     title: 'Dashboards'
+  },
+  {
+    path: 'archives', 
+    pathMatch: 'full',
+    component: ArchivesComponent,
+    title: 'Archives',
+    data: { group: 'Admin' }
   },
   {
     path: 'dashboard-manager', 
