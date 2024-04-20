@@ -8,7 +8,6 @@ import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDi
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { v4 as uuid } from 'uuid';
 import { DashboardService } from '../../../dashboard.service';
 import { Dashboard } from '../../../dashboard.model';
 import { uniq } from 'lodash';
@@ -48,7 +47,6 @@ export class CreateDashboardDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      id: [uuid(), Validators.required],
       name: ['', [Validators.required, this.dashboardService.existingNameValidator()]],
       group: [''],
       isExercise: [false]
@@ -71,8 +69,7 @@ export class CreateDashboardDialogComponent implements OnInit {
   }
 
   saveDashboard(): void {
-    const { id, name, group, isExercise } = this.formGroup.value;
-    const dashboard = new Dashboard(<string>id, <string>name, <string>group || 'Unassociated', <boolean>isExercise);
+    const dashboard = new Dashboard(this.formGroup.value);
     this.dashboardService.addDashboard(dashboard);
     this.dialogRef.close(dashboard);
   }

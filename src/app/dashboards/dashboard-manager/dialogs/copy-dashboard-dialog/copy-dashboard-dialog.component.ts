@@ -6,7 +6,6 @@ import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, Ma
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { v4 as uuid } from 'uuid';
 import { DashboardService } from '../../../dashboard.service';
 import { Dashboard } from '../../../dashboard.model';
 
@@ -41,7 +40,6 @@ export class CopyDashboardDialogComponent implements OnInit {
   ngOnInit(): void {
     const dashboard = this.data.dashboard;
     this.formGroup = this.formBuilder.group({
-      id: [uuid(), Validators.required],
       name: [dashboard?.name + ' (Copy)', [Validators.required, this.dashboardService.existingNameValidator()]],
       group: [dashboard?.group || ''],
       isExercise: [dashboard?.isExercise ?? false]
@@ -56,8 +54,7 @@ export class CopyDashboardDialogComponent implements OnInit {
   }
 
   saveDashboard(): void {
-    const { id, name, group, isExercise } = this.formGroup.value;
-    const dashboard = new Dashboard(<string>id, <string>name, <string>group || 'Unassociated', <boolean>isExercise);
+    const dashboard = new Dashboard(this.formGroup.value);
     this.dashboardService.addDashboard(dashboard);
     this.dialogRef.close(dashboard);
   }
