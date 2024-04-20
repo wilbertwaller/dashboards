@@ -9,8 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { v4 as uuid } from 'uuid';
-import { Panel } from '../../../panel.model';
+import { FilterType, Panel, PanelType } from '../../../panel.model';
 
 @Component({
   selector: 'app-configure-list-dialog',
@@ -34,6 +33,7 @@ import { Panel } from '../../../panel.model';
   styleUrl: './configure-list-dialog.component.css'
 })
 export class ConfigureListDialogComponent implements OnInit {
+  filterType = FilterType;
   formGroup!: FormGroup;
 
   constructor(
@@ -43,15 +43,14 @@ export class ConfigureListDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      id: [uuid(), Validators.required],
       title: [''],
-      filterType: ['']
+      filterType: [''],
+      type: [PanelType.List, Validators.required]
     });
   }
 
   addPanel(): void {
-    const { id, title, filterType } = this.formGroup.value;
-    const panel = new Panel(id, title, filterType);
+    const panel = new Panel(this.formGroup.value);
     this.dialogRef.close(panel);
   }
 }
