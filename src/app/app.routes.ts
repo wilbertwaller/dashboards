@@ -4,6 +4,7 @@ import { DashboardManagerComponent } from './dashboards/dashboard-manager/dashbo
 import { UserManagerComponent } from './user-manager/user-manager.component';
 import { DashboardComponent } from './dashboards/dashboard/dashboard.component';
 import { ArchivesComponent } from './archives/archives.component';
+import { FeedbackComponent } from './feedback/feedback/feedback.component';
 
 export const routes: Routes = [
   {
@@ -29,6 +30,13 @@ export const routes: Routes = [
   {
     path: 'dashboards/:id', 
     component: DashboardComponent
+  },
+  {
+    path: 'feedback', 
+    pathMatch: 'full',
+    component: FeedbackComponent,
+    title: 'Feedback',
+    data: { group: 'Admin' }
   },
   {
     path: 'user-manager', 

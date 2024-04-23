@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Provide Feedback</h2>
+<mat-dialog-content>
+  <form [formGroup]="formGroup">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input formControlName="title" matInput required type="text">
+      <mat-error>{{ getErrorMessage('title') }}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Dashboard</mat-label>
+      <input
+        formControlName="dashboardName"
+        #input
+        [matAutocomplete]="auto"
+        matInput
+        type="text"
+        (focus)="filter()"
+        (input)="filter()"
+      >
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let name of filteredDashboards" [value]="name">{{ name }}</mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Summary</mat-label>
+      <textarea formControlName="summary" matInput required [rows]="4"></textarea>
+      <mat-error>{{ getErrorMessage('summary') }}</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close color="primary"><mat-icon>cancel</mat-icon>Cancel</button>
+  <button [disabled]="formGroup.invalid" mat-flat-button color="primary" (click)="saveFeedback()"><mat-icon>save</mat-icon>Save</button>
+</mat-dialog-actions>

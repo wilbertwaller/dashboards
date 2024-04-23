@@ -1,6 +1,14 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button routerLink="/">
+  <button
+    mat-icon-button
+    matTooltip="Navigate home"
+    routerLink="/"
+  >
     <mat-icon>apps</mat-icon>
   </button>
   <span>{{ title }}</span>
+  <span class="spacer"></span>
+  <button mat-icon-button matTooltip="Add feedback" (click)="onAddFeedback()">
+    <mat-icon>feedback</mat-icon>
+  </button>
 </mat-toolbar>
