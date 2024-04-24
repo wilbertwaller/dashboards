@@ -22,7 +22,7 @@ interface Group {
   styleUrls: ['../shared/shared-styles.css', './home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private onDestroy$ = new Subject<boolean>();
+  private isDestroyed$ = new Subject<boolean>();
   private unassociated = 'Unassociated';
 
   groups: Group[] = [];
@@ -30,13 +30,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private dashboardService: DashboardService) {}
 
   ngOnDestroy(): void {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
+    this.isDestroyed$.next(true);
+    this.isDestroyed$.complete();
   }
 
   ngOnInit(): void {
     const initialRoutes = this.getInitialRoutes();
-    this.dashboardService.dashboards.pipe(takeUntil(this.onDestroy$)).subscribe((dashboards: Dashboard[]) => {
+    this.dashboardService.dashboards.pipe(takeUntil(this.isDestroyed$)).subscribe((dashboards: Dashboard[]) => {
       const additionalRoutes = this.getAdditionalRoutes(dashboards);
       this.groups = concat(initialRoutes, additionalRoutes);
     });

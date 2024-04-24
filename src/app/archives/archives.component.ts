@@ -21,7 +21,7 @@ interface Group {
   styleUrls: ['../shared/shared-styles.css', './archives.component.css']
 })
 export class ArchivesComponent implements OnInit, OnDestroy {
-  private onDestroy$ = new Subject<boolean>();
+  private isDestroyed$ = new Subject<boolean>();
   private unassociated = 'Unassociated';
 
   groups: Group[] = [];
@@ -29,12 +29,12 @@ export class ArchivesComponent implements OnInit, OnDestroy {
   constructor(private dashboardService: DashboardService) {}
 
   ngOnDestroy(): void {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
+    this.isDestroyed$.next(true);
+    this.isDestroyed$.complete();
   }
 
   ngOnInit(): void {
-    this.dashboardService.dashboards.pipe(takeUntil(this.onDestroy$)).subscribe((dashboards: Dashboard[]) => {
+    this.dashboardService.dashboards.pipe(takeUntil(this.isDestroyed$)).subscribe((dashboards: Dashboard[]) => {
       this.groups = this.getDashboardRoutes(dashboards);
     });
   }
