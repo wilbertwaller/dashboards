@@ -10,6 +10,7 @@ import { Dashboard } from '../../dashboards/dashboard.model';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Feedback } from '../feedback.model';
 import { CommonModule } from '@angular/common';
+import { FeedbackService } from '../feedback.service';
 
 @Component({
   selector: 'app-feedback-dialog',
@@ -42,7 +43,8 @@ export class FeedbackDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { dashboardName: string },
     private dialogRef: MatDialogRef<FeedbackDialogComponent>,
     private formBuilder: FormBuilder,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private feedbackService: FeedbackService
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +73,7 @@ export class FeedbackDialogComponent implements OnInit {
 
   saveFeedback(): void {
     const feedback = new Feedback(this.formGroup.value);
+    this.feedbackService.addFeedback(feedback);
     this.dialogRef.close(feedback);
   }
 }
