@@ -9,6 +9,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 })
 export class DashboardService {
   private _dashboards: Dashboard[] = [];
+  private _selectedDashboard: Dashboard | undefined;
   dashboards = new BehaviorSubject<Dashboard[]>(this._dashboards);
 
   constructor() {}
@@ -38,11 +39,15 @@ export class DashboardService {
   }
 
   includes(name: string): boolean {
-    return !!this._dashboards.find((dashboard: Dashboard) => dashboard.name.toLowerCase() === name.trim().toLowerCase());
+    return !!this._dashboards.find((dashboard: Dashboard) => dashboard.name.toLowerCase() === name.trim().toLowerCase() && dashboard.id !== this._selectedDashboard?.id);
   }
 
   existingNameValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null =>
       this.includes(control.value) ? { existingName: { value: control.value } } : null
+  }
+
+  setSelectedDashboard(dashboard: Dashboard | undefined): void {
+    this._selectedDashboard = dashboard;
   }
 }

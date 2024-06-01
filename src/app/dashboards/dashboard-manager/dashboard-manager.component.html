@@ -35,7 +35,7 @@
         <button mat-stroked-button color="primary" (click)="onCopyDashboard()"><mat-icon>content_copy</mat-icon>Clone</button>
         <button mat-stroked-button color="warn" (click)="onDeleteDashboard()"><mat-icon>delete</mat-icon>Delete</button>
         <mat-divider vertical></mat-divider>
-        <button mat-flat-button color="primary" (click)="onSaveDashboard()"><mat-icon>save</mat-icon>Save</button>
+        <button [disabled]="formGroup.invalid" mat-flat-button color="primary" (click)="onSaveDashboard()"><mat-icon>save</mat-icon>Save</button>
       </ng-container>
     </section>
   </div>

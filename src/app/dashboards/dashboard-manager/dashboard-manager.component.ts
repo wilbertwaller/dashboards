@@ -80,6 +80,7 @@ export class DashboardManagerComponent implements OnDestroy, OnInit {
     });
     this.dashboardCtrl.valueChanges.subscribe((value: string | null) => {
       this.selectedDashboard = this.dashboards.find((dashboard: Dashboard) => dashboard.name === value);
+      this.dashboardService.setSelectedDashboard(this.selectedDashboard);
       this.formGroup.setValue({
         id: this.selectedDashboard?.id,
         name: this.selectedDashboard?.name,
