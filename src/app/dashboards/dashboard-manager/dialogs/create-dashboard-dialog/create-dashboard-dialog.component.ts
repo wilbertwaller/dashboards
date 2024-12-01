@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +12,6 @@ import { MatInputModule } from '@angular/material/input';
 import { DashboardService } from '../../../dashboard.service';
 import { Dashboard } from '../../../dashboard.model';
 import { uniq } from 'lodash';
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-create-dashboard-dialog',
@@ -33,14 +33,14 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './create-dashboard-dialog.component.html',
   styleUrl: './create-dashboard-dialog.component.css'
 })
-export class CreateDashboardDialogComponent implements OnDestroy, OnInit {
-  private isDestroyed$ = new Subject<boolean>();
-
+export class CreateDashboardDialogComponent implements OnInit {
   @ViewChild('input') input: ElementRef<HTMLInputElement> | undefined;
 
   filteredGroups: string[] = [];
   formGroup!: FormGroup;
   groups: string[] = [];
+
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private dialogRef: MatDialogRef<CreateDashboardDialogComponent>,
@@ -48,18 +48,13 @@ export class CreateDashboardDialogComponent implements OnDestroy, OnInit {
     private dashboardService: DashboardService
   ) {}
 
-  ngOnDestroy(): void {
-    this.isDestroyed$.next(true);
-    this.isDestroyed$.complete();
-  }
-
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
       name: ['', [Validators.required, this.dashboardService.existingNameValidator()]],
       group: [''],
       isExercise: [false]
     });
-    this.dashboardService.dashboards.pipe(takeUntil(this.isDestroyed$)).subscribe((dashboards: Dashboard[]) => {
+    this.dashboardService.dashboards.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((dashboards: Dashboard[]) => {
       this.groups = uniq(dashboards.map((dashboard: Dashboard) => dashboard.group));
     });
   }

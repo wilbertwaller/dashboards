@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Route, RouterModule } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
 import { DashboardService } from '../dashboards/dashboard.service';
 import { Dashboard } from '../dashboards/dashboard.model';
 
@@ -20,21 +20,16 @@ interface Group {
   templateUrl: './archives.component.html',
   styleUrls: ['../shared/shared-styles.css', './archives.component.css']
 })
-export class ArchivesComponent implements OnInit, OnDestroy {
-  private isDestroyed$ = new Subject<boolean>();
-  private unassociated = 'Unassociated';
-
+export class ArchivesComponent implements OnInit {
   groups: Group[] = [];
+
+  private destroyRef = inject(DestroyRef);
+  private unassociated = 'Unassociated';
 
   constructor(private dashboardService: DashboardService) {}
 
-  ngOnDestroy(): void {
-    this.isDestroyed$.next(true);
-    this.isDestroyed$.complete();
-  }
-
   ngOnInit(): void {
-    this.dashboardService.dashboards.pipe(takeUntil(this.isDestroyed$)).subscribe((dashboards: Dashboard[]) => {
+    this.dashboardService.dashboards.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((dashboards: Dashboard[]) => {
       this.groups = this.getDashboardRoutes(dashboards);
     });
   }

@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,7 +16,6 @@ import { DashboardService } from '../dashboard.service';
 import { Dashboard } from '../dashboard.model';
 import { CopyDashboardDialogComponent } from './dialogs/copy-dashboard-dialog/copy-dashboard-dialog.component';
 import { DeleteDashboardDialogComponent } from './dialogs/delete-dashboard-dialog/delete-dashboard-dialog.component';
-import { Subject, takeUntil } from 'rxjs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { omit } from 'lodash';
 
@@ -43,14 +43,9 @@ interface Group {
   templateUrl: './dashboard-manager.component.html',
   styleUrls: ['../../shared/shared-styles.css', './dashboard-manager.component.css']
 })
-export class DashboardManagerComponent implements OnDestroy, OnInit {
+export class DashboardManagerComponent implements OnInit {
   @ViewChild('dashboardInput') dashboardInput: ElementRef<HTMLInputElement> | undefined;
   @ViewChild('groupInput') groupInput: ElementRef<HTMLInputElement> | undefined;
-
-  private dashboards: Dashboard[] = [];
-  private onDestroy$ = new Subject<boolean>();
-  private selectedDashboard: Dashboard | undefined;
-  private unassociated = 'Unassociated';
 
   dashboardCtrl = new FormControl('');
   filteredDashboardGroups: Group[] = [];
@@ -59,15 +54,15 @@ export class DashboardManagerComponent implements OnDestroy, OnInit {
   groups: string[] = [];
   groupOptions: Group[] = [];
 
+  private dashboards: Dashboard[] = [];
+  private destroyRef = inject(DestroyRef);
+  private selectedDashboard: Dashboard | undefined;
+  private unassociated = 'Unassociated';
+
   constructor(private dialog: MatDialog, private formBuilder: FormBuilder, private dashboardService: DashboardService) {}
 
-  ngOnDestroy(): void {
-    this.onDestroy$.next(true);
-    this.onDestroy$.complete();
-  }
-
   ngOnInit(): void {
-    this.dashboardService.dashboards.pipe(takeUntil(this.onDestroy$)).subscribe((dashboards: Dashboard[]) => {
+    this.dashboardService.dashboards.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((dashboards: Dashboard[]) => {
       this.dashboards = dashboards;
       this.groupOptions = this.getGroupOptions(dashboards);
     });

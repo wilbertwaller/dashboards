@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, OnInit, ViewChild, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { Feedback } from '../feedback.model';
 import { FeedbackService } from '../feedback.service';
-import { Subject, takeUntil } from 'rxjs';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 
 @Component({
@@ -13,13 +13,13 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
   templateUrl: './feedback.component.html',
   styleUrls: ['../../shared/shared-styles.css', './feedback.component.css']
 })
-export class FeedbackComponent implements AfterViewInit, OnDestroy, OnInit {
-  private isDestroyed$ = new Subject<boolean>();
+export class FeedbackComponent implements AfterViewInit, OnInit {
+  @ViewChild(MatSort) sort!: MatSort;
 
   dataSource = new MatTableDataSource<Feedback>();
   displayedColumns: string[] = ['dashboardName', 'title', 'summary'];
 
-  @ViewChild(MatSort) sort!: MatSort;
+  private destroyRef = inject(DestroyRef);
 
   constructor(private feedbackService: FeedbackService) {}
 
@@ -27,14 +27,9 @@ export class FeedbackComponent implements AfterViewInit, OnDestroy, OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  ngOnDestroy(): void {
-    this.isDestroyed$.next(true);
-    this.isDestroyed$.complete();
-  }
-
   ngOnInit(): void {
     this.feedbackService.feedback
-      .pipe(takeUntil(this.isDestroyed$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((feedback: Feedback[]) => {
         this.dataSource.data = feedback ?? [];
       });
