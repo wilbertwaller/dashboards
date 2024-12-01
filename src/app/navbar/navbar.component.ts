@@ -41,7 +41,8 @@ export class NavbarComponent implements OnInit {
   onAddFeedback(): void {
     const dialogRef = this.dialog.open(FeedbackDialogComponent, {
       autoFocus: false,
-      data: { dashboardName: this.title }
+      data: { dashboardName: this.title },
+      disableClose: true
     });
     dialogRef.afterClosed().subscribe((feedback: Feedback) => {
 

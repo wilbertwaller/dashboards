@@ -119,7 +119,7 @@ export class DashboardManagerComponent implements OnInit {
   }
 
   onCreateDashboard(): void {
-    const dialogRef = this.dialog.open(CreateDashboardDialogComponent, { autoFocus: false });
+    const dialogRef = this.dialog.open(CreateDashboardDialogComponent, { autoFocus: false, disableClose: true });
     dialogRef.afterClosed().subscribe((dashboard: Dashboard) => {
       if (dashboard) {
         this.dashboardCtrl.setValue(dashboard.name);
@@ -130,7 +130,8 @@ export class DashboardManagerComponent implements OnInit {
   onCopyDashboard(): void {
     const dialogRef = this.dialog.open(CopyDashboardDialogComponent, {
       autoFocus: false,
-      data: { dashboard: this.selectedDashboard }
+      data: { dashboard: this.selectedDashboard },
+      disableClose: true
     });
     dialogRef.afterClosed().subscribe((dashboard: Dashboard) => {
       if (dashboard) {
@@ -142,7 +143,8 @@ export class DashboardManagerComponent implements OnInit {
   onDeleteDashboard(): void {
     const dialogRef = this.dialog.open(DeleteDashboardDialogComponent, {
       autoFocus: false,
-      data: { dashboard: this.selectedDashboard }
+      data: { dashboard: this.selectedDashboard },
+      disableClose: true
     });
     dialogRef.afterClosed().subscribe((deleted: boolean) => {
       if (deleted) {
