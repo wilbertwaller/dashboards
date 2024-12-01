@@ -39,7 +39,7 @@ export class DashboardService {
   }
 
   includes(name: string): boolean {
-    return !!this._dashboards.find((dashboard: Dashboard) => dashboard.name.toLowerCase() === name.trim().toLowerCase() && dashboard.id !== this._selectedDashboard?.id);
+    return !!this._dashboards.find((dashboard: Dashboard) => dashboard.name.toLowerCase() === name.trim().toLowerCase());
   }
 
   existingNameValidator(): ValidatorFn {
