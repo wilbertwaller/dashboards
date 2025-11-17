@@ -10,22 +10,21 @@ import { DashboardService } from '../../../dashboard.service';
 import { Dashboard } from '../../../dashboard.model';
 
 @Component({
-  selector: 'app-copy-dashboard-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './copy-dashboard-dialog.component.html',
-  styleUrl: './copy-dashboard-dialog.component.css'
+    selector: 'app-copy-dashboard-dialog',
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './copy-dashboard-dialog.component.html',
+    styleUrl: './copy-dashboard-dialog.component.css'
 })
 export class CopyDashboardDialogComponent implements OnInit {
   formGroup!: FormGroup;

@@ -6,11 +6,10 @@ import { Dashboard } from '../dashboard.model';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [NavbarComponent],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+    selector: 'app-dashboard',
+    imports: [NavbarComponent],
+    templateUrl: './dashboard.component.html',
+    styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
   dashboard: Dashboard | undefined;

@@ -7,11 +7,10 @@ import { FeedbackService } from '../feedback.service';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 
 @Component({
-  selector: 'app-feedback',
-  standalone: true,
-  imports: [MatSortModule, MatTableModule, NavbarComponent],
-  templateUrl: './feedback.component.html',
-  styleUrls: ['../../shared/shared-styles.css', './feedback.component.css']
+    selector: 'app-feedback',
+    imports: [MatSortModule, MatTableModule, NavbarComponent],
+    templateUrl: './feedback.component.html',
+    styleUrls: ['../../shared/shared-styles.css', './feedback.component.css']
 })
 export class FeedbackComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort!: MatSort;

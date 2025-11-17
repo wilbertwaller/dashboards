@@ -14,11 +14,10 @@ interface Group {
 }
 
 @Component({
-  selector: 'app-archives',
-  standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, NavbarComponent, RouterModule],
-  templateUrl: './archives.component.html',
-  styleUrls: ['../shared/shared-styles.css', './archives.component.css']
+    selector: 'app-archives',
+    imports: [CommonModule, MatCardModule, MatListModule, NavbarComponent, RouterModule],
+    templateUrl: './archives.component.html',
+    styleUrls: ['../shared/shared-styles.css', './archives.component.css']
 })
 export class ArchivesComponent implements OnInit {
   groups: Group[] = [];

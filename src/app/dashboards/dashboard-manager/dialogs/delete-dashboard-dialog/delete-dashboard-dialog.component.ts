@@ -6,18 +6,17 @@ import { Dashboard } from '../../../dashboard.model';
 import { DashboardService } from '../../../dashboard.service';
 
 @Component({
-  selector: 'app-delete-dashboard-dialog',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogTitle,
-    MatIconModule
-  ],
-  templateUrl: './delete-dashboard-dialog.component.html',
-  styleUrl: './delete-dashboard-dialog.component.css'
+    selector: 'app-delete-dashboard-dialog',
+    imports: [
+        MatButtonModule,
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogContent,
+        MatDialogTitle,
+        MatIconModule
+    ],
+    templateUrl: './delete-dashboard-dialog.component.html',
+    styleUrl: './delete-dashboard-dialog.component.css'
 })
 export class DeleteDashboardDialogComponent {
   constructor(

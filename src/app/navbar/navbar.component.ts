@@ -10,11 +10,10 @@ import { FeedbackDialogComponent } from '../feedback/feedback-dialog/feedback-di
 import { Feedback } from '../feedback/feedback.model';
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatToolbarModule, MatTooltipModule, RouterLink],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+    selector: 'app-navbar',
+    imports: [MatButtonModule, MatIconModule, MatToolbarModule, MatTooltipModule, RouterLink],
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
   title = '';

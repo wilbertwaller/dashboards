@@ -25,23 +25,22 @@ interface Group {
 }
 
 @Component({
-  selector: 'app-dashboard-manager',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatTabsModule,
-    NavbarComponent,
-    ReactiveFormsModule
-  ],
-  templateUrl: './dashboard-manager.component.html',
-  styleUrls: ['../../shared/shared-styles.css', './dashboard-manager.component.css']
+    selector: 'app-dashboard-manager',
+    imports: [
+        CommonModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatDividerModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatTabsModule,
+        NavbarComponent,
+        ReactiveFormsModule
+    ],
+    templateUrl: './dashboard-manager.component.html',
+    styleUrls: ['../../shared/shared-styles.css', './dashboard-manager.component.css']
 })
 export class DashboardManagerComponent implements OnInit {
   @ViewChild('dashboardInput') dashboardInput: ElementRef<HTMLInputElement> | undefined;

@@ -15,11 +15,10 @@ interface Group {
 }
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, NavbarComponent, RouterModule],
-  templateUrl: './home.component.html',
-  styleUrls: ['../shared/shared-styles.css', './home.component.css']
+    selector: 'app-home',
+    imports: [CommonModule, MatCardModule, MatListModule, NavbarComponent, RouterModule],
+    templateUrl: './home.component.html',
+    styleUrls: ['../shared/shared-styles.css', './home.component.css']
 })
 export class HomeComponent implements OnInit {
   groups: Group[] = [];

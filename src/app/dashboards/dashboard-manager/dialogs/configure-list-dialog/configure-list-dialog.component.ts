@@ -12,25 +12,24 @@ import { MatSelectModule } from '@angular/material/select';
 import { FilterType, Panel, PanelType } from '../../../panel.model';
 
 @Component({
-  selector: 'app-configure-list-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatSelectModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './configure-list-dialog.component.html',
-  styleUrl: './configure-list-dialog.component.css'
+    selector: 'app-configure-list-dialog',
+    imports: [
+        CommonModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatSelectModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './configure-list-dialog.component.html',
+    styleUrl: './configure-list-dialog.component.css'
 })
 export class ConfigureListDialogComponent implements OnInit {
   filterType = FilterType;

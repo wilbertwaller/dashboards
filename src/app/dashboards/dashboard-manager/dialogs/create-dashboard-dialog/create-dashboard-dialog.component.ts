@@ -14,24 +14,23 @@ import { Dashboard } from '../../../dashboard.model';
 import { uniq } from 'lodash';
 
 @Component({
-  selector: 'app-create-dashboard-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './create-dashboard-dialog.component.html',
-  styleUrl: './create-dashboard-dialog.component.css'
+    selector: 'app-create-dashboard-dialog',
+    imports: [
+        CommonModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './create-dashboard-dialog.component.html',
+    styleUrl: './create-dashboard-dialog.component.css'
 })
 export class CreateDashboardDialogComponent implements OnInit {
   @ViewChild('input') input: ElementRef<HTMLInputElement> | undefined;

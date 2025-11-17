@@ -13,23 +13,22 @@ import { CommonModule } from '@angular/common';
 import { FeedbackService } from '../feedback.service';
 
 @Component({
-  selector: 'app-feedback-dialog',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogContent,
-    MatDialogTitle,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './feedback-dialog.component.html',
-  styleUrl: './feedback-dialog.component.css'
+    selector: 'app-feedback-dialog',
+    imports: [
+        CommonModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatDialogActions,
+        MatDialogClose,
+        MatDialogContent,
+        MatDialogTitle,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './feedback-dialog.component.html',
+    styleUrl: './feedback-dialog.component.css'
 })
 export class FeedbackDialogComponent implements OnInit {
   @ViewChild('input') input: ElementRef<HTMLInputElement> | undefined;
