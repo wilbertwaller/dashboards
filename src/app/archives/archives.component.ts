@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
@@ -15,7 +15,7 @@ interface Group {
 
 @Component({
     selector: 'app-archives',
-    imports: [CommonModule, MatCardModule, MatListModule, NavbarComponent, RouterModule],
+    imports: [MatCardModule, MatListModule, NavbarComponent, RouterModule],
     templateUrl: './archives.component.html',
     styleUrls: ['../shared/shared-styles.css', './archives.component.css']
 })

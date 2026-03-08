@@ -9,24 +9,23 @@ import { DashboardService } from '../../dashboards/dashboard.service';
 import { Dashboard } from '../../dashboards/dashboard.model';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Feedback } from '../feedback.model';
-import { CommonModule } from '@angular/common';
+
 import { FeedbackService } from '../feedback.service';
 
 @Component({
     selector: 'app-feedback-dialog',
     imports: [
-        CommonModule,
-        MatAutocompleteModule,
-        MatButtonModule,
-        MatDialogActions,
-        MatDialogClose,
-        MatDialogContent,
-        MatDialogTitle,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        ReactiveFormsModule
-    ],
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogContent,
+    MatDialogTitle,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    ReactiveFormsModule
+],
     templateUrl: './feedback-dialog.component.html',
     styleUrl: './feedback-dialog.component.css'
 })

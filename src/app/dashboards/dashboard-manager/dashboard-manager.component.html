@@ -20,70 +20,78 @@
           type="text"
           (focus)="filterDashboard()"
           (input)="filterDashboard()"
-        >
-        <mat-autocomplete #auto="matAutocomplete" requireSelection>
-          <mat-optgroup *ngFor="let group of filteredDashboardGroups" [label]="group.name">
-            <mat-option *ngFor="let dashboard of group.dashboards" [value]="dashboard">{{ dashboard }}</mat-option>
-          </mat-optgroup>
-        </mat-autocomplete>
-      </mat-form-field>
-    </form>
-    
-    <section>
-      <button mat-stroked-button color="primary" (click)="onCreateDashboard()"><mat-icon>add</mat-icon>New</button>
-      <ng-container *ngIf="dashboardCtrl.value">
-        <button mat-stroked-button color="primary" (click)="onCopyDashboard()"><mat-icon>content_copy</mat-icon>Clone</button>
-        <button mat-stroked-button color="warn" (click)="onDeleteDashboard()"><mat-icon>delete</mat-icon>Delete</button>
-        <mat-divider vertical></mat-divider>
-        <button [disabled]="formGroup.invalid" mat-flat-button color="primary" (click)="onSaveDashboard()"><mat-icon>save</mat-icon>Save</button>
-      </ng-container>
-    </section>
+          >
+          <mat-autocomplete #auto="matAutocomplete" requireSelection>
+            @for (group of filteredDashboardGroups; track group) {
+              <mat-optgroup [label]="group.name">
+                @for (dashboard of group.dashboards; track dashboard) {
+                  <mat-option [value]="dashboard">{{ dashboard }}</mat-option>
+                }
+              </mat-optgroup>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+
+      <section>
+        <button mat-stroked-button color="primary" (click)="onCreateDashboard()"><mat-icon>add</mat-icon>New</button>
+        @if (dashboardCtrl.value) {
+          <button mat-stroked-button color="primary" (click)="onCopyDashboard()"><mat-icon>content_copy</mat-icon>Clone</button>
+          <button mat-stroked-button color="warn" (click)="onDeleteDashboard()"><mat-icon>delete</mat-icon>Delete</button>
+          <mat-divider vertical></mat-divider>
+          <button [disabled]="formGroup.invalid" mat-flat-button color="primary" (click)="onSaveDashboard()"><mat-icon>save</mat-icon>Save</button>
+        }
+      </section>
+    </div>
+
+    @if (dashboardCtrl.value) {
+      <mat-tab-group>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon style="margin-right: 8px">settings</mat-icon>
+            General
+          </ng-template>
+          <ng-container *ngTemplateOutlet="general"></ng-container>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon style="margin-right: 8px">dashboard</mat-icon>
+            Layout
+          </ng-template>
+          <ng-container *ngTemplateOutlet="layout"></ng-container>
+        </mat-tab>
+      </mat-tab-group>
+    }
   </div>
 
-  <mat-tab-group *ngIf="dashboardCtrl.value">
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <mat-icon style="margin-right: 8px">settings</mat-icon>
-        General
-      </ng-template>
-      <ng-container *ngTemplateOutlet="general"></ng-container>
-    </mat-tab>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <mat-icon style="margin-right: 8px">dashboard</mat-icon>
-        Layout
-      </ng-template>
-      <ng-container *ngTemplateOutlet="layout"></ng-container>
-    </mat-tab>
-  </mat-tab-group>
-</div>
+  <ng-template #general matTabContent>
+    <form class="edit" [formGroup]="formGroup">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input formControlName="name" matInput required type="text">
+        <mat-error>{{ getErrorMessage('name') }}</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Group</mat-label>
+        <input
+          formControlName="group"
+          #groupInput
+          [matAutocomplete]="auto"
+          matInput
+          placeholder="Enter group"
+          type="text"
+          (focus)="filterGroup()"
+          (input)="filterGroup()"
+          >
+          <mat-autocomplete #auto="matAutocomplete">
+            @for (group of filteredGroups; track group) {
+              <mat-option [value]="group">{{ group }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-checkbox formControlName="isExercise">Exercise</mat-checkbox>
+        <mat-checkbox formControlName="isArchived">Archive</mat-checkbox>
+      </form>
+    </ng-template>
 
-<ng-template #general matTabContent>
-  <form class="edit" [formGroup]="formGroup">
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input formControlName="name" matInput required type="text">
-      <mat-error>{{ getErrorMessage('name') }}</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Group</mat-label>
-      <input
-        formControlName="group"
-        #groupInput
-        [matAutocomplete]="auto"
-        matInput
-        placeholder="Enter group"
-        type="text"
-        (focus)="filterGroup()"
-        (input)="filterGroup()"
-      >
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let group of filteredGroups" [value]="group">{{ group }}</mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <mat-checkbox formControlName="isExercise">Exercise</mat-checkbox>
-    <mat-checkbox formControlName="isArchived">Archive</mat-checkbox>
-  </form>
-</ng-template>
-
-<ng-template #layout matTabContent>Layout</ng-template>
+    <ng-template #layout matTabContent>Layout</ng-template>

@@ -1,14 +1,18 @@
 <app-navbar></app-navbar>
 
 <div class="container">
-  <mat-card *ngFor="let group of groups">
-    <mat-card-header><mat-card-title>{{ group.name }}</mat-card-title></mat-card-header>
-    <mat-card-content>
-      <mat-nav-list>
-        <a mat-list-item *ngFor="let route of group.paths" [routerLink]="route.path">
-          {{ route.title }}
-        </a>
-      </mat-nav-list>
-    </mat-card-content>
-  </mat-card>
+  @for (group of groups; track group) {
+    <mat-card>
+      <mat-card-header><mat-card-title>{{ group.name }}</mat-card-title></mat-card-header>
+      <mat-card-content>
+        <mat-nav-list>
+          @for (route of group.paths; track route) {
+            <a mat-list-item [routerLink]="route.path">
+              {{ route.title }}
+            </a>
+          }
+        </mat-nav-list>
+      </mat-card-content>
+    </mat-card>
+  }
 </div>

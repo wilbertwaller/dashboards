@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { Route, Router, RouterModule } from "@angular/router";
 import { concat, pick } from 'lodash';
-import { CommonModule } from "@angular/common";
+
 import { DashboardService } from "../dashboards/dashboard.service";
 import { Dashboard } from "../dashboards/dashboard.model";
 
@@ -16,7 +16,7 @@ interface Group {
 
 @Component({
     selector: 'app-home',
-    imports: [CommonModule, MatCardModule, MatListModule, NavbarComponent, RouterModule],
+    imports: [MatCardModule, MatListModule, NavbarComponent, RouterModule],
     templateUrl: './home.component.html',
     styleUrls: ['../shared/shared-styles.css', './home.component.css']
 })
